@@ -14,3 +14,13 @@ services:
     environment:
       NODE_ENV: development
       DEBUG: nodejs-docker-express:*
+  mongodb:
+    image: mongo:5.0
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=mongo.random.password
+  
