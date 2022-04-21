@@ -1,9 +1,25 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+// import handler
+const { getQuotes, getGroups, getThemes } = require('../services/handler');
+
+router.get('/quotes', async function(req, res, next) {
+  const { query } = req;
+  const quotes = await getQuotes(query);
+  res.status(200).json(quotes);
+});
+
+router.get('/groups', async function(req, res, next) {
+  const { query } = req;
+  const groups = await getGroups(query);
+  res.status(200).json(groups);
+});
+
+router.get('/themes', async function(req, res, next) {
+  const { query } = req;
+  const groups = await getThemes(query);
+  res.status(200).json(groups);
 });
 
 module.exports = router;
