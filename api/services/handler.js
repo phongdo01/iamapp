@@ -25,7 +25,8 @@ module.exports = {
         .limit(pageSize)
         .skip(currentPage * pageSize)
         .sort({ createdAt: -1 });
-        const groups = listGroups.map(async item => {
+        const groups = await listGroups.reduce(async (list, item) => {
+            const listClone = await list;
             const categories = await item.categories.reduce(async (rs, it) => {
                 const arr = await rs;
                 const categoryDetail = await category.findById(it);
@@ -35,9 +36,9 @@ module.exports = {
             const obj = {
                 ...item.toJSON(), categories
             }
-            return obj;
-        });
-        console.log('gouprssss: ', await groups);
+            listClone.push(obj);
+            return listClone;
+        }, []);
         return groups;
     },
     getThemes: function(query) {
