@@ -8,4 +8,4 @@ RUN npm install
 
 COPY . .
 
-CMD ["sleep", "infinity"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]
