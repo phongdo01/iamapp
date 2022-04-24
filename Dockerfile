@@ -8,6 +8,4 @@ RUN npm install
 
 COPY . .
 
-# ENTRYPOINT ["tail"]
-
 CMD ["sleep", "infinity"]
