@@ -50,5 +50,15 @@ module.exports = {
         .skip(currentPage * pageSize)
         .sort({ createdAt: -1 });
         return themes;
+    },
+    getCategories: function(query) {
+        let { currentPage, pageSize } = query;
+        currentPage = parseInt(currentPage) || DEFAULT_CURRENT_PAGE;
+        pageSize = parseInt(pageSize) || DEFAULT_PAGE_SIZE;
+        const categories = category.find({})
+        .limit(pageSize)
+        .skip(currentPage * pageSize)
+        .sort({ createdAt: -1 });
+        return categories;
     }
 }
