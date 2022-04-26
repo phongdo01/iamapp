@@ -6,10 +6,10 @@ const theme = mongoose.model(
   "theme",
   new Schema(
     {
-      id: String,
+      _id: String,
       color: String,
       font_name: String,
-      font_size: String,
+      font_size: Number,
       background: String,
     },
     {

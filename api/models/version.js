@@ -2,13 +2,12 @@
 const { Schema } = require("mongoose");
 const mongoose = require("../../db/connection");
 
-const quote = mongoose.model(
-  "quote",
+const version = mongoose.model(
+  "version",
   new Schema(
     {
       _id: String,
-      category_id: String,
-      content: String,
+      version: Number
     },
     {
       timestamps: true,
@@ -16,4 +15,4 @@ const quote = mongoose.model(
   )
 );
 
-module.exports = quote;
+module.exports = version;

@@ -6,7 +6,7 @@ const group = mongoose.model(
   "group",
   new Schema(
     {
-      id: String,
+      _id: String,
       title: String,
       categories: Schema.Types.Mixed,
     },
