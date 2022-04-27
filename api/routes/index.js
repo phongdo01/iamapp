@@ -3,12 +3,12 @@ const router = express.Router();
 
 // import handler
 const { getQuotes, getGroups, getThemes, getCategories, getVersions } = require('../services/handler');
+// import admin
+const admin = require('./admin');
+const quotes = require('./quotes');
 
-router.get('/quotes', async function(req, res, next) {
-  const { query } = req;
-  const quotes = await getQuotes(query);
-  res.status(200).json(quotes);
-});
+router.use('/admin', admin);
+router.use('/quotes', quotes);
 
 router.get('/groups', async function(req, res, next) {
   const { query } = req;

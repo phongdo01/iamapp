@@ -6,7 +6,7 @@ const quote = mongoose.model(
   "quote",
   new Schema(
     {
-      _id: String,
+      // _id: String,
       category_id: String,
       content: String,
     },

@@ -1,0 +1,142 @@
+<div>
+  <h2>Filterable Table</h2>
+  <p>
+    Type something in the input field to search the table for first names, last
+    names or emails:
+  </p>
+  <div class="form-inline">
+    <input
+      id="myInput"
+      type="text"
+      class="col-md-3 form-control"
+      placeholder="Search.."
+    />
+    <button
+      type="button"
+      class="btn btn-primary ml-5"
+      style="margin-left: 1%"
+      data-toggle="modal"
+      data-target="#myModal"
+      onclick="openModal()"
+    >
+      Add
+    </button>
+  </div>
+  <br /><br />
+
+  <table>
+    <thead>
+      <tr>
+        <th colspan="1">Category</th>
+        <th colspan="5">Content</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+    </tbody>
+  </table>
+  <div
+    class="modal fade"
+    id="myModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New quote</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label"
+                >Category:</label
+              >
+              <select class="form-control" id="inlineFormCustomSelect"></select>
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Content:</label>
+              <textarea class="form-control" id="content-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" onClick="addQuote()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    Note that we start the search in tbody, to prevent filtering the table
+    headers.
+  </p>
+</div>
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
+
+<script>
+  $(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+  });
+  const openModal = function () {
+    $.get("http://localhost:3000/categories", function (data, status) {
+      if (status === "error") {
+        alert("Error");
+        return;
+      }
+      data.forEach((item) => {
+        $("#inlineFormCustomSelect").append(`
+                <option value="${item._id}">${item.title}</option>
+            `);
+      });
+    });
+  };
+  const addQuote = function() {
+    category_id = $("#inlineFormCustomSelect").val();
+    content = $("#content-text").val();
+    $.post("http://localhost:3000/quotes",{category_id, content}, function (data, status) {
+      if (status === "error") {
+        alert("Error");
+        return;
+      }
+      $('.close').click(); 
+    });
+  }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
