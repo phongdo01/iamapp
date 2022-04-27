@@ -1,6 +1,8 @@
 const quote = require("../models/quote");
+const category = require("../models/category");
+const ObjectId = require("mongodb").ObjectId;
 const DEFAULT_CURRENT_PAGE = 0;
-const DEFAULT_PAGE_SIZE = 5;
+const DEFAULT_PAGE_SIZE = 1000;
 
 module.exports = {
   save: async function (body) {
@@ -13,16 +15,30 @@ module.exports = {
       throw error;
     }
   },
-  getQuotes: function (query) {
+  getQuotes: async function (query) {
     let { currentPage, pageSize } = query;
     currentPage = parseInt(currentPage) || DEFAULT_CURRENT_PAGE;
     pageSize = parseInt(pageSize) || DEFAULT_PAGE_SIZE;
-    const quotes = quote
+    const quotes = await quote
       .find({})
       .lean()
       .limit(pageSize)
       .skip(currentPage * pageSize)
       .sort({ createdAt: -1 });
-    return quotes;
+    const listQuote = await Promise.all(
+      quotes.map(async (item) => {
+        const cate = await category
+          .findOne({ id: item.category_id })
+          .lean();
+        return {
+          ...item,
+          category_name: cate.title,
+        };
+      })
+    );
+    return listQuote;
   },
+  deleteQuote: async function(id) {
+    return await quote.deleteOne({_id: ObjectId(id)});
+  }
 };

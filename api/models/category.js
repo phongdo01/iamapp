@@ -6,7 +6,6 @@ const category = mongoose.model(
   "category",
   new Schema(
     {
-      _id: String,
       title: String,
       is_lock: {type: Boolean, default: false},
       is_default: {type: Boolean, default: false},

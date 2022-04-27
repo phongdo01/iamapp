@@ -1,11 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Admin</title>
   </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+  <body class="container">
+    <div class="container">
+      <h2>I'm app server side</h2>
+      <p>
+        Add more data for server, the ID is automatically generate when storing into database, beside that edit feature has not been finished, it could be added in next version
+      </p>
+
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+        <li><a data-toggle="tab" href="#menu1" onClick="clickCategory()">Category</a></li>
+        <li><a data-toggle="tab" href="#menu2" onClick="clickTheme()">Theme</a></li>
+        <li>
+          <a data-toggle="tab" href="#menu3" onClick="clickQuote()">Quote</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+          <h3>HOME</h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+          <%- include('./category.ejs') %>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+          <%- include('./theme.ejs') %>
+        </div>
+        <div id="menu3" class="tab-pane fade">
+          <%- include('./quote.ejs') %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
+
+<script>
+  const clickQuote = function () {
+    $.get("http://localhost:3000/quotes", function (data, status) {
+      if (status === "error") {
+        alert("Error");
+        return;
+      }
+      let table = "";
+      data.forEach((item) => {
+        table += `
+                <tr id='${item._id}'>
+                    <td>
+                          <a onClick="editQuote('${item._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a onClick="deleteQuote('${item._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                    <td colspan="1">${item.category_name}</td>
+                    <td colspan="5">${item.content}</td>
+                </tr>
+            `;
+      });
+      $("#myTable").html(table);
+    });
+  };
+  const deleteQuote = function (id) {
+    isDelete = confirm(`Do you really want to delete ${id}`);
+    if (!isDelete) {
+      return;
+    }
+    $.ajax({
+      url: `http://localhost:3000/quotes/${id}`,
+      type: "DELETE",
+      success: function (result) {
+        $(`#${id}`).remove();
+      },
+      error: function (error) {
+        alert("Error");
+        return;
+      },
+    });
+  };
+  const editQuote = function (id) {
+    alert(`edit quote ${id}`);
+  };
+  $("#myTable .edit").on("click", function () {
+    alert("Tao lao: ");
+  });
+  const clickTheme = function () {
+    $.get("http://localhost:3000/themes", function (data, status) {
+      if (status === "error") {
+        alert("Error");
+        return;
+      }
+      let table = "";
+      data.forEach((item) => {
+        table += `
+                <tr id='${item._id}'>
+                    <td>
+                          <a onClick="editTheme('${item._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a onClick="deleteTheme('${item._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                    <td colspan="1">${item.color}</td>
+                    <td colspan="1">${item.font_name}</td>
+                    <td colspan="1">${item.font_size}</td>
+                    <td colspan="1">${item.background}</td>
+                </tr>
+            `;
+      });
+      $("#myThemeTable").html(table);
+    });
+  };
+  const clickCategory = function () {
+    $.get("http://localhost:3000/categories", function (data, status) {
+      if (status === "error") {
+        alert("Error");
+        return;
+      }
+      let table = "";
+      data.forEach((item) => {
+        table += `
+                <tr id='${item._id}'>
+                    <td>
+                          <a onClick="editCategory('${item._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a onClick="deleteCategory('${item._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                    <td colspan="1">${item.title}</td>
+                    <td colspan="1">${item.is_lock}</td>
+                    <td colspan="1">${item.is_default}</td>
+                    <td colspan="1">${item.theme}</td>
+                </tr>
+            `;
+      });
+      $("#myCategoryTable").html(table);
+    });
+  };
+</script>

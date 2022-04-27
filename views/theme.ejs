@@ -1,11 +1,11 @@
 <div>
-  <h2>Quotes Table</h2>
+  <h2>Themes Table</h2>
   <p>
     Type something in the input field to search the table for category, content:
   </p>
   <div class="form-inline">
     <input
-      id="myInput"
+      id="myThemeInput"
       type="text"
       class="col-md-3 form-control"
       placeholder="Search.."
@@ -15,8 +15,7 @@
       class="btn btn-primary ml-5"
       style="margin-left: 1%"
       data-toggle="modal"
-      data-target="#myModal"
-      onclick="openModal()"
+      data-target="#myThemeModal"
     >
       Add
     </button>
@@ -27,15 +26,17 @@
     <thead>
       <tr>
         <th colspan="1"></th>
-        <th colspan="1">Category</th>
-        <th colspan="5">Content</th>
+        <th colspan="1">Color</th>
+        <th colspan="1">Font name</th>
+        <th colspan="1">Font size</th>
+        <th colspan="1">Back ground</th>
       </tr>
     </thead>
-    <tbody id="myTable"></tbody>
+    <tbody id="myThemeTable"></tbody>
   </table>
   <div
     class="modal fade"
-    id="myModal"
+    id="myThemeModal"
     tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalLabel"
@@ -44,12 +45,13 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New quote</h5>
+          <h5 class="modal-title" id="exampleModalLabel">New theme</h5>
           <button
             type="button"
             class="close"
             data-dismiss="modal"
             aria-label="Close"
+            id="closeThemeModal"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -57,14 +59,26 @@
         <div class="modal-body">
           <form>
             <div class="form-group">
-              <label for="recipient-name" class="col-form-label"
-                >Category:</label
-              >
-              <select class="form-control" id="inlineFormCustomSelect"></select>
+              <label for="recipient-name" class="col-form-label">Color:</label>
+              <input type="color" class="form-control" id="themeColor"></input>
             </div>
             <div class="form-group">
-              <label for="message-text" class="col-form-label">Content:</label>
-              <textarea class="form-control" id="content-text"></textarea>
+              <label for="message-text" class="col-form-label"
+                >Font name:</label
+              >
+              <input type="text" class="form-control" id="themeFontName"></input>
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label"
+                >Font size:</label
+              >
+              <input type="number" class="form-control" id="themeFontSize"></input>
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label"
+                >Background:</label
+              >
+              <input type="text" class="form-control" id="themeBackGround"></input>
             </div>
           </form>
         </div>
@@ -72,7 +86,7 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" onClick="addQuote()">
+          <button type="button" class="btn btn-primary" onClick="addThem()">
             Add
           </button>
         </div>
@@ -107,60 +121,51 @@
 
 <script>
   $(document).ready(function () {
-    $("#myInput").on("keyup", function () {
+    $("#myThemeInput").on("keyup", function () {
       var value = $(this).val().toLowerCase();
-      $("#myTable tr").filter(function () {
+      $("#myThemeTable tr").filter(function () {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
       });
     });
   });
-  const openModal = function () {
-    $.get("http://localhost:3000/categories", function (data, status) {
-      if (status === "error") {
-        alert("Error");
-        return;
-      }
-      const selectElement = data.reduce((elements, item) => {
-        return (
-          elements +
-          `
-                <option value="${item._id}">${item.title}</option>
-            `
-        );
-      }, "");
-      $("#inlineFormCustomSelect").html(selectElement);
-    });
-  };
-  const addQuote = function () {
-    category_id = $("#inlineFormCustomSelect").val();
-    category_name = $("#inlineFormCustomSelect option:selected").text();
-    content = $("#content-text").val();
-    if (!content) {
-      return;
+  const addThem = function () {
+    color = $("#themeColor").val();
+    font_name = $("#themeFontName").val();
+    font_size = $("#themeFontSize").val();
+    background = $("#themeBackGround").val();
+    const body = {
+      color,
+      font_name,
+      font_size,
+      background
     }
     $.post(
-      "http://localhost:3000/quotes",
-      { category_id, content },
+      "http://localhost:3000/themes",
+      body,
       function (data, status) {
         if (status === "error") {
           alert("Error");
           return;
         }
-        $("#myTable").prepend(`
+        $("#myThemeTable").prepend(`
                 <tr id="${data._id}">
                     <td>
                           <a onClick="editQuote('${data._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                           <a onClick="deleteQuote('${data._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
-                    <td colspan="1">${category_name}</td>
-                    <td colspan="5">${content}</td>
+                    <td colspan="1">${color}</td>
+                    <td colspan="1">${font_name}</td>
+                    <td colspan="1">${font_size}</td>
+                    <td colspan="1">${background}</td>
                 </tr>
             `);
 
-        $(".close").click();
+        $("#closeThemeModal").click();
+        $("#themeFontName").val("");
+        $("#themeFontSize").val("");
+        $("#themeBackGround").val("");
       }
     );
-    $("#content-text").val("");
   };
 </script>
 

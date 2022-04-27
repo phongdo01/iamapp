@@ -6,9 +6,13 @@ const { getQuotes, getGroups, getThemes, getCategories, getVersions } = require(
 // import admin
 const admin = require('./admin');
 const quotes = require('./quotes');
+const themes = require('./themes');
+const categories = require('./category');
 
 router.use('/admin', admin);
 router.use('/quotes', quotes);
+router.use('/themes', themes);
+router.use('/categories', categories);
 
 router.get('/groups', async function(req, res, next) {
   const { query } = req;
