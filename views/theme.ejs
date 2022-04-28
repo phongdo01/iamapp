@@ -78,7 +78,7 @@
               <label for="message-text" class="col-form-label"
                 >Background:</label
               >
-              <input type="text" class="form-control" id="themeBackGround"></input>
+              <input type="file" class="form-control" id="themeBackGround" name="background"></input>
             </div>
           </form>
         </div>
@@ -138,6 +138,10 @@
       font_name,
       font_size,
       background
+    }
+    if (!(color && font_name && font_size && background)) {
+      alert("Please fill all the fields");
+      return;
     }
     $.post(
       "http://localhost:3000/themes",

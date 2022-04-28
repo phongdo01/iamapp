@@ -18,6 +18,7 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    
     <title>Admin</title>
   </head>
   <body class="container">
@@ -28,7 +29,7 @@
       </p>
 
       <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+        <li class="active"><a data-toggle="tab" href="#home" onClick="clickGroup()">Home</a></li>
         <li><a data-toggle="tab" href="#menu1" onClick="clickCategory()">Category</a></li>
         <li><a data-toggle="tab" href="#menu2" onClick="clickTheme()">Theme</a></li>
         <li>
@@ -38,11 +39,7 @@
 
       <div class="tab-content">
         <div id="home" class="tab-pane fade in active">
-          <h3>HOME</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
+          <%- include('./group.ejs') %>
         </div>
         <div id="menu1" class="tab-pane fade">
           <%- include('./category.ejs') %>
@@ -98,9 +95,6 @@
       },
     });
   };
-  const editQuote = function (id) {
-    alert(`edit quote ${id}`);
-  };
   $("#myTable .edit").on("click", function () {
     alert("Tao lao: ");
   });
@@ -128,6 +122,23 @@
       $("#myThemeTable").html(table);
     });
   };
+  const deleteTheme = function (id) {
+    isDelete = confirm(`Do you really want to delete ${id}`);
+    if (!isDelete) {
+      return;
+    }
+    $.ajax({
+      url: `http://localhost:3000/themes/${id}`,
+      type: "DELETE",
+      success: function (result) {
+        $(`#${id}`).remove();
+      },
+      error: function (error) {
+        alert("Error");
+        return;
+      },
+    });
+  }
   const clickCategory = function () {
     $.get("http://localhost:3000/categories", function (data, status) {
       if (status === "error") {
@@ -150,6 +161,66 @@
             `;
       });
       $("#myCategoryTable").html(table);
+    });
+  };
+  const deleteCategory = function (id) {
+    isDelete = confirm(`Do you really want to delete ${id}`);
+    if (!isDelete) {
+      return;
+    }
+    $.ajax({
+      url: `http://localhost:3000/categories/${id}`,
+      type: "DELETE",
+      success: function (result) {
+        $(`#${id}`).remove();
+      },
+      error: function (error) {
+        alert("Error");
+        return;
+      },
+    });
+  };
+  $(document).ready(function () {
+    clickGroup();
+  });
+  const clickGroup = function () {
+    $.get("http://localhost:3000/groups", function (data, status) {
+      if (status === "error") {
+        alert("Error");
+        return;
+      }
+      let table = "";
+      data.forEach((item) => {
+        const categories = item.categories.map(item => item.title).join('<br>');
+        table += `
+                <tr id='${item._id}'>
+                    <td>
+                          <a onClick="editGroup('${item._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a onClick="deleteGroup('${item._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                    <td colspan="1">${item.title}</td>
+                    <td colspan="5">${categories}</td>
+                </tr>
+            `;
+      });
+      $("#myGroupTable").html(table);
+    });
+  };
+  const deleteGroup = function (id) {
+    isDelete = confirm(`Do you really want to delete ${id}`);
+    if (!isDelete) {
+      return;
+    }
+    $.ajax({
+      url: `http://localhost:3000/groups/${id}`,
+      type: "DELETE",
+      success: function (result) {
+        $(`#${id}`).remove();
+      },
+      error: function (error) {
+        alert("Error");
+        return;
+      },
     });
   };
 </script>

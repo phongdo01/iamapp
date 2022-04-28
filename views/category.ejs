@@ -159,6 +159,10 @@
       is_default,
       theme
     }
+    if (!(title && is_default && is_lock && theme)) {
+      alert("Please fill all the fields");
+      return;
+    }
     $.post(
       "http://localhost:3000/categories",
       body,
