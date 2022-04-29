@@ -120,7 +120,7 @@
   });
   
   const openGroupModal = function () {
-    $.get("http://localhost:3000/categories", function (data, status) {
+    $.get("http://13.215.199.73:3000/categories", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -147,7 +147,7 @@
         return;
     }
     $.post(
-      "http://localhost:3000/groups",
+      "http://13.215.199.73:3000/groups",
       body,
       function (data, status) {
         if (status === "error") {

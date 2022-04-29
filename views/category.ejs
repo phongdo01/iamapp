@@ -132,7 +132,7 @@
     });
   });
   const openCategoryModal = function () {
-    $.get("http://localhost:3000/themes", function (data, status) {
+    $.get("http://13.215.199.73:3000/themes", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -164,7 +164,7 @@
       return;
     }
     $.post(
-      "http://localhost:3000/categories",
+      "http://13.215.199.73:3000/categories",
       body,
       function (data, status) {
         if (status === "error") {

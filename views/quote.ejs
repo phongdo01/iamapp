@@ -115,7 +115,7 @@
     });
   });
   const openModal = function () {
-    $.get("http://localhost:3000/categories", function (data, status) {
+    $.get("http://13.215.199.73:3000/categories", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -140,7 +140,7 @@
       return;
     }
     $.post(
-      "http://localhost:3000/quotes",
+      "http://13.215.199.73:3000/quotes",
       { category_id, content },
       function (data, status) {
         if (status === "error") {

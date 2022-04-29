@@ -19,7 +19,7 @@ var accessLogStream = rfs.createStream('access.log', {
   path: path.join(__dirname, 'log')
 })
 app.use(logger('combined', { stream: accessLogStream }));
-app.use(express.json());
+// app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -39,6 +39,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
+  console.log(err);
   res.status(err.status || 500);
   res.render('error');
 });

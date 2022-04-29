@@ -56,23 +56,23 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form enctype="multipart/form-data" action="/themes" action="POST" id="add-theme">
         <div class="modal-body">
-          <form>
             <div class="form-group">
               <label for="recipient-name" class="col-form-label">Color:</label>
-              <input type="color" class="form-control" id="themeColor"></input>
+              <input type="color" name="color" class="form-control" id="themeColor"></input>
             </div>
             <div class="form-group">
               <label for="message-text" class="col-form-label"
                 >Font name:</label
               >
-              <input type="text" class="form-control" id="themeFontName"></input>
+              <input type="text" name="font_name" class="form-control" id="themeFontName"></input>
             </div>
             <div class="form-group">
               <label for="message-text" class="col-form-label"
                 >Font size:</label
               >
-              <input type="number" class="form-control" id="themeFontSize"></input>
+              <input type="number" name="font_size" class="form-control" id="themeFontSize"></input>
             </div>
             <div class="form-group">
               <label for="message-text" class="col-form-label"
@@ -80,17 +80,17 @@
               >
               <input type="file" class="form-control" id="themeBackGround" name="background"></input>
             </div>
-          </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Add
+            </button>
+          </div>
+        </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" onClick="addThem()">
-            Add
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -128,25 +128,36 @@
       });
     });
   });
-  const addThem = function () {
+  const addTheme = function () {
     color = $("#themeColor").val();
     font_name = $("#themeFontName").val();
     font_size = $("#themeFontSize").val();
-    background = $("#themeBackGround").val();
+    // background = $("#themeBackGround").val();
     const body = {
       color,
       font_name,
       font_size,
-      background
+      // background
     }
-    if (!(color && font_name && font_size && background)) {
+    if (!(color && font_name && font_size)) {
       alert("Please fill all the fields");
       return;
     }
-    $.post(
-      "http://localhost:3000/themes",
-      body,
-      function (data, status) {
+    var fd = new FormData();    
+    fd.append( 'color', color);
+    fd.append( 'font_name', font_name);
+    fd.append( 'font_size', font_size);
+    fd.append( 'background', $("#themeBackGround")[0].files[0]);
+
+    // var formData = new FormData($('#formf'));
+
+    $.ajax({
+      type: "POST",
+      url: "http://13.215.199.73:3000/themes",
+      data: fd,
+      processData: false,
+      headers: { "Content-Type": "multipart/form-data; boundary=MyBoundary" },
+      success: function (data, status) {
         if (status === "error") {
           alert("Error");
           return;
@@ -160,7 +171,7 @@
                     <td colspan="1">${color}</td>
                     <td colspan="1">${font_name}</td>
                     <td colspan="1">${font_size}</td>
-                    <td colspan="1">${background}</td>
+                    <td colspan="1">background</td>
                 </tr>
             `);
 
@@ -168,9 +179,30 @@
         $("#themeFontName").val("");
         $("#themeFontSize").val("");
         $("#themeBackGround").val("");
+      },
+      error: function(error) {
+        console.log(error);
       }
+    }
     );
   };
+
+  $("#add-theme").on('submit', function(e) {
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+    $.ajax({
+        type: "POST",
+        url: "http://13.215.199.73:3000/themes",
+        data: new FormData(this), // serializes the form's elements.
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          $("#closeThemeModal").click();
+          clickTheme();
+        }
+    });
+
+});
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
