@@ -1,5 +1,5 @@
 <div>
-  <h2>Quotes Table</h2>
+  <h2>Category Table</h2>
   <p>
     Type something in the input field to search the table for category, content:
   </p>
@@ -132,7 +132,7 @@
     });
   });
   const openCategoryModal = function () {
-    $.get("http://13.215.199.73:3000/themes", function (data, status) {
+    $.get("http://13.215.199.73/themes", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -164,7 +164,7 @@
       return;
     }
     $.post(
-      "http://13.215.199.73:3000/categories",
+      "http://13.215.199.73/categories",
       body,
       function (data, status) {
         if (status === "error") {

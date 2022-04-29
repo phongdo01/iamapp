@@ -25,7 +25,7 @@
     <div class="container">
       <h2>I'm app server side</h2>
       <p>
-        Add more data for server, the ID is automatically generate when storing into database, beside that edit feature has not been finished, it could be added in next version
+        Add more data for server, the ID is automatically generate when storing into database, beside that feature "Edit" has not been finished, <span style="color:red">it could be added in next version</span>
       </p>
 
       <ul class="nav nav-tabs">
@@ -57,7 +57,7 @@
 
 <script>
   const clickQuote = function () {
-    $.get("http://13.215.199.73:3000/quotes", function (data, status) {
+    $.get("http://13.215.199.73/quotes", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -84,7 +84,7 @@
       return;
     }
     $.ajax({
-      url: `http://13.215.199.73:3000/quotes/${id}`,
+      url: `http://13.215.199.73/quotes/${id}`,
       type: "DELETE",
       success: function (result) {
         $(`#${id}`).remove();
@@ -99,7 +99,7 @@
     alert("Tao lao: ");
   });
   const clickTheme = function () {
-    $.get("http://13.215.199.73:3000/themes", function (data, status) {
+    $.get("http://13.215.199.73/themes", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -128,7 +128,7 @@
       return;
     }
     $.ajax({
-      url: `http://13.215.199.73:3000/themes/${id}`,
+      url: `http://13.215.199.73/themes/${id}`,
       type: "DELETE",
       success: function (result) {
         $(`#${id}`).remove();
@@ -140,7 +140,7 @@
     });
   }
   const clickCategory = function () {
-    $.get("http://13.215.199.73:3000/categories", function (data, status) {
+    $.get("http://13.215.199.73/categories", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -169,7 +169,7 @@
       return;
     }
     $.ajax({
-      url: `http://13.215.199.73:3000/categories/${id}`,
+      url: `http://13.215.199.73/categories/${id}`,
       type: "DELETE",
       success: function (result) {
         $(`#${id}`).remove();
@@ -184,7 +184,7 @@
     clickGroup();
   });
   const clickGroup = function () {
-    $.get("http://13.215.199.73:3000/groups", function (data, status) {
+    $.get("http://13.215.199.73/groups", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -212,7 +212,7 @@
       return;
     }
     $.ajax({
-      url: `http://13.215.199.73:3000/groups/${id}`,
+      url: `http://13.215.199.73/groups/${id}`,
       type: "DELETE",
       success: function (result) {
         $(`#${id}`).remove();

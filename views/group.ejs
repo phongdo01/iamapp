@@ -1,5 +1,5 @@
 <div>
-  <h2>Quotes Table</h2>
+  <h2>Group Table</h2>
   <p>
     Type something in the input field to search the table for category, content:
   </p>
@@ -120,7 +120,7 @@
   });
   
   const openGroupModal = function () {
-    $.get("http://13.215.199.73:3000/categories", function (data, status) {
+    $.get("http://13.215.199.73/categories", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -147,7 +147,7 @@
         return;
     }
     $.post(
-      "http://13.215.199.73:3000/groups",
+      "http://13.215.199.73/groups",
       body,
       function (data, status) {
         if (status === "error") {
