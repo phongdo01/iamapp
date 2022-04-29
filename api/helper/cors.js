@@ -1,13 +1,13 @@
 const cors = require("cors");
-var whitelist = ['http://http://13.215.199.73', 'http://shinosuke.cf/']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
+var whitelist = ['http://localhost:3001', 'http://13.215.199.73']
+var corsOptionsDelegate = function (req, callback) {
+    var corsOptions;
+    if (whitelist.indexOf(req.header('Origin')) !== -1) {
+      corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
     } else {
-      callback(new Error('Not allowed by CORS'))
+      corsOptions = { origin: false } // disable CORS for this request
     }
+    callback(null, corsOptions) // callback expects two parameters: error and options
   }
-}
 
-module.exports = cors(corsOptions);
+module.exports = cors(corsOptionsDelegate);
