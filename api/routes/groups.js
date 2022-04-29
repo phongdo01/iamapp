@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const cors = require('../helper/cors');
 const { getGroups, save, deleteGroup} = require('../services/groupHandler');
 
-router.get("/", async function (req, res, next) {
+router.get("/", cors, async function (req, res, next) {
   const { query } = req;
   const groups = await getGroups(query);
   res.status(200).json(groups);
 });
 
-router.post("/", async function (req, res, next) {
+router.post("/", cors, async function (req, res, next) {
     try {
         const groups = await save(req.body);
         res.status(200).json(groups);
@@ -17,7 +18,7 @@ router.post("/", async function (req, res, next) {
     }
 });
 
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id", cors, async function (req, res, next) {
     try {
         const groups = await deleteGroup(req.params.id);
         res.status(200).json(groups);

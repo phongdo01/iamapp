@@ -2,6 +2,7 @@ const multer = require('multer');
 const express = require("express");
 const router = express.Router();
 const { getThemes, save, deleteTheme} = require('../services/themeHandler');
+const cors = require('../helper/cors');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -14,13 +15,13 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 // const upload = multer({ dest: './public/images' })
 
-router.get("/", async function (req, res, next) {
+router.get("/", cors, async function (req, res, next) {
   const { query } = req;
   const themes = await getThemes(query);
   res.status(200).json(themes);
 });
 
-router.post("/",upload.single('background'), async function (req, res, next) {
+router.post("/", [cors, upload.single('background')], async function (req, res, next) {
     try {
       const {color, font_name, font_size} = req.body;
       const background = req.file.filename;
@@ -37,7 +38,7 @@ router.post("/",upload.single('background'), async function (req, res, next) {
     }
 });
 
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id", cors, async function (req, res, next) {
     try {
         const themes = await deleteTheme(req.params.id);
         res.status(200).json(themes);

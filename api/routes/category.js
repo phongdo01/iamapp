@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const cors = require('../helper/cors');
 const { getCategories, save, deleteCategory} = require('../services/categoryHandler');
 
-router.get("/", async function (req, res, next) {
+router.get("/", cors, async function (req, res, next) {
   const { query } = req;
   const categories = await getCategories(query);
   res.status(200).json(categories);
 });
 
-router.post("/", async function (req, res, next) {
+router.post("/", cors, async function (req, res, next) {
     try {
         const categories = await save(req.body);
         res.status(200).json(categories);
@@ -17,7 +18,7 @@ router.post("/", async function (req, res, next) {
     }
 });
 
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id", cors, async function (req, res, next) {
     try {
         const categories = await deleteCategory(req.params.id);
         res.status(200).json(categories);
