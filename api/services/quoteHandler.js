@@ -1,5 +1,6 @@
 const quote = require("../models/quote");
 const category = require("../models/category");
+const version = require("../models/version");
 const ObjectId = require("mongodb").ObjectId;
 const DEFAULT_CURRENT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 1000;
@@ -9,6 +10,7 @@ module.exports = {
     try {
       const { category_id, content } = body;
       const newQuote = await quote({ category_id, content });
+      version.save();
       return await newQuote.save();
     } catch (error) {
       console.log(error);
@@ -39,6 +41,7 @@ module.exports = {
     return listQuote;
   },
   deleteQuote: async function(id) {
+    version.save();
     return await quote.deleteOne({_id: ObjectId(id)});
   }
 };

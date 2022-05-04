@@ -1,4 +1,5 @@
 const category = require("../models/category");
+const version = require("../models/version");
 const ObjectId = require("mongodb").ObjectId;
 const DEFAULT_CURRENT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 1000;
@@ -18,6 +19,7 @@ module.exports = {
         is_default,
         theme
       });
+      version.save();
       return await newCategory.save();
     } catch (error) {
       console.log(error);
@@ -43,6 +45,7 @@ module.exports = {
     return categories;
   },
   deleteCategory: async function(id) {
+    version.save();
     return await category.deleteOne({_id: ObjectId(id)});
   }
 };

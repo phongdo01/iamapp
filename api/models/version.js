@@ -6,7 +6,6 @@ const version = mongoose.model(
   "version",
   new Schema(
     {
-      _id: String,
       version: Number
     },
     {

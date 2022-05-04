@@ -1,4 +1,5 @@
 const theme = require("../models/theme");
+const version = require("../models/version");
 const ObjectId = require("mongodb").ObjectId;
 const DEFAULT_CURRENT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 1000;
@@ -13,6 +14,7 @@ module.exports = {
         font_size,
         background,
       });
+      version.save();
       return await newTheme.save();
     } catch (error) {
       console.log(error);
@@ -32,6 +34,7 @@ module.exports = {
     return themes;
   },
   deleteTheme: async function (id) {
+    version.save();
     return await theme.deleteOne({ _id: ObjectId(id) });
   },
 };
