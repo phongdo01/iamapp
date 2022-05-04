@@ -1,6 +1,6 @@
 const quote = require("../models/quote");
 const category = require("../models/category");
-const version = require("../models/version");
+const version = require("./versionHandler");
 const ObjectId = require("mongodb").ObjectId;
 const DEFAULT_CURRENT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 1000;

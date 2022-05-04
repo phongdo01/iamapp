@@ -1,13 +1,13 @@
 const version = require("../models/version");
 
 module.exports = {
-    save: function () {
+    save: async function () {
         try {
           const timestamp = new Date().getTime();
-          const newTheme = await version({
+          const newVersion = await version({
             version: timestamp
           });
-          return await version.save();
+          return newVersion.save();
         } catch (error) {
           console.log(error);
           throw error;
