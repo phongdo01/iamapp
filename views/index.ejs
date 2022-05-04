@@ -57,7 +57,7 @@
 
 <script>
   const clickQuote = function () {
-    $.get("http://13.215.199.73/quotes", function (data, status) {
+    $.get("http://shinosuke.cf/quotes", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -99,7 +99,7 @@
     alert("Tao lao: ");
   });
   const clickTheme = function () {
-    $.get("http://13.215.199.73/themes", function (data, status) {
+    $.get("http://shinosuke.cf/themes", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -128,7 +128,7 @@
       return;
     }
     $.ajax({
-      url: `http://13.215.199.73/themes/${id}`,
+      url: `http://shinosuke.cf/themes/${id}`,
       type: "DELETE",
       success: function (result) {
         $(`#${id}`).remove();
@@ -140,7 +140,7 @@
     });
   }
   const clickCategory = function () {
-    $.get("http://13.215.199.73/categories", function (data, status) {
+    $.get("http://shinosuke.cf/categories", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -169,7 +169,7 @@
       return;
     }
     $.ajax({
-      url: `http://13.215.199.73/categories/${id}`,
+      url: `http://shinosuke.cf/categories/${id}`,
       type: "DELETE",
       success: function (result) {
         $(`#${id}`).remove();
@@ -184,7 +184,7 @@
     clickGroup();
   });
   const clickGroup = function () {
-    $.get("http://13.215.199.73/groups", function (data, status) {
+    $.get("http://shinosuke.cf/groups", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -212,7 +212,7 @@
       return;
     }
     $.ajax({
-      url: `http://13.215.199.73/groups/${id}`,
+      url: `http://shinosuke.cf/groups/${id}`,
       type: "DELETE",
       success: function (result) {
         $(`#${id}`).remove();

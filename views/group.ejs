@@ -120,7 +120,7 @@
   });
   
   const openGroupModal = function () {
-    $.get("http://13.215.199.73/categories", function (data, status) {
+    $.get("http://shinosuke.cf/categories", function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -147,7 +147,7 @@
         return;
     }
     $.post(
-      "http://13.215.199.73/groups",
+      "http://shinosuke.cf/groups",
       body,
       function (data, status) {
         if (status === "error") {
