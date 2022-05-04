@@ -86,9 +86,6 @@
     $.ajax({
       url: `http://13.215.199.73/quotes/${id}`,
       type: "DELETE",
-      beforeSend: function (xhr) {
-          xhr.setRequestHeader('Origin', 'http://localhost:3000');
-      },
       success: function (result) {
         $(`#${id}`).remove();
       },
