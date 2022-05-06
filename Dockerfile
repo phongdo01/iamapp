@@ -8,4 +8,4 @@ RUN npm install
 
 COPY . .
 
-ENTRYPOINT ["npm", "run", "start:dev"]
+# ENTRYPOINT ["npm", "run", "start:dev"]
