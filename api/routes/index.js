@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // import handler
-const { getQuotes, getGroups, getThemes, getCategories, getVersions } = require('../services/handler');
+const { getVersions } = require('../services/handler');
 // import admin
 const admin = require('./admin');
 const quotes = require('./quotes');
@@ -15,24 +15,9 @@ router.use('/quotes', quotes);
 router.use('/themes', themes);
 router.use('/categories', categories);
 router.use('/groups', groups);
-
-// router.get('/groups', async function(req, res, next) {
-//   const { query } = req;
-//   const groups = await getGroups(query);
-//   res.status(200).json(groups);
-// });
-
-// router.get('/themes', async function(req, res, next) {
-//   const { query } = req;
-//   const groups = await getThemes(query);
-//   res.status(200).json(groups);
-// });
-
-// router.get('/categories', async function(req, res, next) {
-//   const { query } = req;
-//   const categories = await getCategories(query);
-//   res.status(200).json(categories);
-// });
+router.get('/', function(req, res) {
+  res.redirect('/admin');
+})
 
 router.get('/version', async function(req, res, next) {
   const { query } = req;

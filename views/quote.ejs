@@ -106,6 +106,7 @@
 </style>
 
 <script>
+  const url = "http://shinosuke.cf";
   $(document).ready(function () {
     $("#myInput").on("keyup", function () {
       var value = $(this).val().toLowerCase();
@@ -115,7 +116,7 @@
     });
   });
   const openModal = function () {
-    $.get("http://shinosuke.cf/categories", function (data, status) {
+    $.get(`${url}/categories`, function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -140,7 +141,7 @@
       return;
     }
     $.post(
-      "http://shinosuke.cf/quotes",
+      `${url}/quotes`,
       { category_id, content },
       function (data, status) {
         if (status === "error") {

@@ -110,6 +110,7 @@
 </style>
 
 <script>
+  const url = "http://shinosuke.cf";
    $(document).ready(function () {
     $("#myGroupInput").on("keyup", function () {
       var value = $(this).val().toLowerCase();
@@ -120,7 +121,7 @@
   });
   
   const openGroupModal = function () {
-    $.get("http://shinosuke.cf/categories", function (data, status) {
+    $.get(`${url}/categories`, function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -147,7 +148,7 @@
         return;
     }
     $.post(
-      "http://shinosuke.cf/groups",
+      `${url}/groups`,
       body,
       function (data, status) {
         if (status === "error") {

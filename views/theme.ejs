@@ -120,6 +120,7 @@
 </style>
 
 <script>
+  const url = "http://shinosuke.cf";
   $(document).ready(function () {
     $("#myThemeInput").on("keyup", function () {
       var value = $(this).val().toLowerCase();
@@ -153,7 +154,7 @@
 
     $.ajax({
       type: "POST",
-      url: "http://shinosuke.cf/themes",
+      url: `${url}/themes`,
       data: fd,
       processData: false,
       headers: { "Content-Type": "multipart/form-data; boundary=MyBoundary" },
@@ -191,7 +192,7 @@
     e.preventDefault(); // avoid to execute the actual submit of the form.
     $.ajax({
         type: "POST",
-        url: "http://shinosuke.cf/themes",
+        url: `${url}/themes`,
         data: new FormData(this), // serializes the form's elements.
         cache: false,
         contentType: false,

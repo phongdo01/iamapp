@@ -123,6 +123,7 @@
 </style>
 
 <script>
+  const url = "http://shinosuke.cf";
   $(document).ready(function () {
     $("#myCategoryInput").on("keyup", function () {
       var value = $(this).val().toLowerCase();
@@ -132,7 +133,7 @@
     });
   });
   const openCategoryModal = function () {
-    $.get("http://shinosuke.cf/themes", function (data, status) {
+    $.get(`${url}/themes`, function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
@@ -164,7 +165,7 @@
       return;
     }
     $.post(
-      "http://shinosuke.cf/categories",
+      `${url}/categories`,
       body,
       function (data, status) {
         if (status === "error") {
