@@ -1,4 +1,5 @@
 const interface = require("../models/interface");
+const { getIconById } = require("./iconHandler");
 const DEFAULT_CURRENT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 1000;
 module.exports = {
@@ -30,4 +31,16 @@ module.exports = {
       .findById(id)
       .lean();
   },
+  getIconsByCategoryAndFolder: async function({categoryName, folder}) {
+    const interfaces = await interface.find({category: categoryName}).lean();
+    if (!interfaces) {
+      return 404;
+    }
+    const foundInterface = interfaces[0].data.find(item => item.folder === folder);
+    if (!foundInterface) {
+      return 404;
+    }
+    const icons = await Promise.all(foundInterface.appIcons.map(item => getIconById(item)))
+    return icons;
+  }
 };

@@ -1,7 +1,8 @@
 const multer = require("multer");
 const express = require("express");
 const router = express.Router();
-const { getInterfaces, getInterfaceById } = require("../services/interfaceHandler");
+const { getInterfaces, getInterfaceById, getIconsByCategoryAndFolder } = require("../services/interfaceHandler");
+const { getIcons } = require("../services/iconHandler");
 const cors = require("../helper/cors");
 
 router.get("/", cors, async function (req, res, next) {
@@ -23,14 +24,18 @@ router.get("/category/:id", cors, async function (req, res, next) {
   res.status(200).json(previews);
 });
 
-router.delete("/:id", cors, async function (req, res, next) {
-  try {
-    const interfaces = await deleteTheme(req.params.id);
-    res.status(200).json(interfaces);
-  } catch (error) {
-    console.log("error: ", error);
-    res.status(400).send(error);
+router.get("/:categoryName/:folder", cors, async function (req, res, next) {
+  const icons = await getIconsByCategoryAndFolder(req.params);
+  if (icons === 404) {
+    return res.status(404).send("Data not found");
   }
+  res.status(200).json(icons);
+});
+
+router.get("/icons", cors, async function (req, res, next) {
+  const interfaces = await getIcons(req.query);
+  const previews = interfaces.map(item => item._id);
+  res.status(200).json(previews);
 });
 
 module.exports = router;

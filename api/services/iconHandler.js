@@ -25,4 +25,7 @@ module.exports = {
       .skip(currentPage * pageSize);
     return icons;
   },
+  getIconById: function(id) {
+    return icon.findById(id).lean();
+  }
 };

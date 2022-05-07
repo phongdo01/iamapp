@@ -14,6 +14,7 @@ module.exports = mongoose.model(
           preview: String,
           themeBackground: String,
           bottomViewBackground: String,
+          appIcons: Schema.Types.Mixed,
         },
       ],
     },
