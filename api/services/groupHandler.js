@@ -32,7 +32,7 @@ module.exports = {
       listGroups.map(async (item, index) => {
         const categories = await Promise.all(
           item.categories.map(async (it) => {
-            const rs = await category.findOne({ id: new ObjectId(it) });
+            const rs = await category.findById(it);
             return rs;
           })
         );
