@@ -30,7 +30,7 @@ module.exports = {
     const listQuote = await Promise.all(
       quotes.map(async (item) => {
         const cate = await category
-          .findOne({ id: item.category_id })
+          .findById(item.category_id)
           .lean();
         return {
           ...item,

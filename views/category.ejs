@@ -150,8 +150,8 @@
   };
   const addCategory = function () {
     title = $("#categoryTitle").val();
-    is_lock = $("#categoryIsLock").is(":checked");
-    is_default = $("#categoryIsDefault").is(":checked");
+    is_lock = $("#categoryIsLock").is(":checked") || false;
+    is_default = $("#categoryIsDefault").is(":checked") || false;
     theme = $("#categoryTheme option:selected").text();
     const body = {
       title,
@@ -159,7 +159,7 @@
       is_default,
       theme
     }
-    if (!(title && is_default && is_lock && theme)) {
+    if (!(title && theme)) {
       alert("Please fill all the fields");
       return;
     }
