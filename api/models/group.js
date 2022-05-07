@@ -7,7 +7,7 @@ const group = mongoose.model(
   new Schema(
     {
       title: String,
-      categories: Schema.Types.Mixed,
+      categories: [],
     },
     {
       timestamps: true,
