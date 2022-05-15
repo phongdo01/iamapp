@@ -52,13 +52,7 @@
             </div>
             <div class="form-group">
               <label for="categoryTheme" class="col-form-label">Theme:</label>
-              <select class="selectpicker my-select" id="categoryTheme">
-                <option
-                  data-content="<image src='https://data.world/api/datadotworld-apps/dataset/python/file/raw/logo.png' width='10%' height='10%'/>Ketchup">
-                  Ketchup</option>
-                <option
-                  data-content="<image src='https://data.world/api/datadotworld-apps/dataset/python/file/raw/logo.png' width='10%' height='10%'/>Ketchup">
-                  Ketchup</option>
+              <select class="selectpicker my-select" id="categoryTheme" data-width="50%" data-live-search="true">
               </select>
             </div>
           </form>
@@ -114,23 +108,24 @@
         return;
       }
       const selectElement = data.reduce((elements, item) => {
+        const {_id, background, color, font_name, font_size} = item;
         return (
           elements +
           `
-          <option
-                data-content="<image src='https://data.world/api/datadotworld-apps/dataset/python/file/raw/logo.png' width='10%' height='10%'/>Ketchup">
-                Ketchup</option>
+          <option value="${_id}"
+                data-content="<image src='${url}/images/${background}' width='10%' height='10%'/> ${color}-${font_name}-${font_size}">
+                ${_id}</option>
           `
         );
       }, "");
-      $("#categoryTheme").append(selectElement);
+      $(".selectpicker").selectpicker('refresh').empty().append(selectElement).selectpicker('refresh').trigger('change');
     });
   };
   const addCategory = function () {
     title = $("#categoryTitle").val();
     is_lock = $("#categoryIsLock").is(":checked") || false;
     is_default = $("#categoryIsDefault").is(":checked") || false;
-    theme = $("#categoryTheme option:selected").text();
+    theme = $("#categoryTheme").val();
     const body = {
       title,
       is_lock,
