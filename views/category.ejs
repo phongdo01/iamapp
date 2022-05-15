@@ -4,20 +4,9 @@
     Type something in the input field to search the table for category, content:
   </p>
   <div class="form-inline">
-    <input
-      id="myCategoryInput"
-      type="text"
-      class="col-md-3 form-control"
-      placeholder="Search.."
-    />
-    <button
-      type="button"
-      class="btn btn-primary ml-5"
-      style="margin-left: 1%"
-      data-toggle="modal"
-      data-target="#myCategoryModal"
-      onclick="openCategoryModal()"
-    >
+    <input id="myCategoryInput" type="text" class="col-md-3 form-control" placeholder="Search.." />
+    <button type="button" class="btn btn-primary ml-5" style="margin-left: 1%" data-toggle="modal"
+      data-target="#myCategoryModal" onclick="openCategoryModal()">
       Add
     </button>
   </div>
@@ -35,55 +24,42 @@
     </thead>
     <tbody id="myCategoryTable"></tbody>
   </table>
-  <div
-    class="modal fade"
-    id="myCategoryModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="myCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">New category</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-            id="closeCategoryModal"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeCategoryModal">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <form>
             <div class="form-group">
-              <label for="recipient-name" class="col-form-label"
-                >Title:</label
-              >
+              <label for="recipient-name" class="col-form-label">Title:</label>
               <input type="text" class="form-control" id="categoryTitle"></input>
             </div>
             <div class="form-inline">
               <div class="form-group">
-                <label for="categoryIsLock" class="col-form-label"
-                  >Is lock:</label
-                >
+                <label for="categoryIsLock" class="col-form-label">Is lock:</label>
                 <input type="checkbox" class="form-control" id="categoryIsLock"></input>
               </div>
               <div class="form-group">
-                <label for="categoryIsDefault" class="col-form-label"
-                  >Is default:</label
-                >
+                <label for="categoryIsDefault" class="col-form-label">Is default:</label>
                 <input type="checkbox" class="form-control" id="categoryIsDefault"></input>
               </div>
             </div>
             <div class="form-group">
-              <label for="categoryTheme" class="col-form-label"
-                >Theme:</label
-              >
-              <select class="form-control" id="categoryTheme"></select>
+              <label for="categoryTheme" class="col-form-label">Theme:</label>
+              <select class="selectpicker my-select" id="categoryTheme">
+                <option
+                  data-content="<image src='https://data.world/api/datadotworld-apps/dataset/python/file/raw/logo.png' width='10%' height='10%'/>Ketchup">
+                  Ketchup</option>
+                <option
+                  data-content="<image src='https://data.world/api/datadotworld-apps/dataset/python/file/raw/logo.png' width='10%' height='10%'/>Ketchup">
+                  Ketchup</option>
+              </select>
             </div>
           </form>
         </div>
@@ -97,11 +73,11 @@
         </div>
       </div>
     </div>
-</div>
-<p>
-  Note that we start the search in tbody, to prevent filtering the table
-  headers.
-</p>
+  </div>
+  <p>
+    Note that we start the search in tbody, to prevent filtering the table
+    headers.
+  </p>
 </div>
 <style>
   table {
@@ -141,11 +117,13 @@
         return (
           elements +
           `
-                <option value="${item._id}">${item._id}</option>
-            `
+          <option
+                data-content="<image src='https://data.world/api/datadotworld-apps/dataset/python/file/raw/logo.png' width='10%' height='10%'/>Ketchup">
+                Ketchup</option>
+          `
         );
       }, "");
-      $("#categoryTheme").html(selectElement);
+      $("#categoryTheme").append(selectElement);
     });
   };
   const addCategory = function () {
@@ -192,5 +170,3 @@
     $("#categoryIsDefault").prop('checked', false);
   };
 </script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
