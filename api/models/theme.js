@@ -10,6 +10,10 @@ const theme = mongoose.model(
       font_name: String,
       font_size: Number,
       background: String,
+      is_customer: {
+        type: Boolean,
+        default: false
+      }
     },
     {
       timestamps: true,
