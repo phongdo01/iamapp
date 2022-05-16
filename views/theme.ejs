@@ -30,6 +30,7 @@
         <th colspan="1">Font name</th>
         <th colspan="1">Font size</th>
         <th colspan="1">Back ground</th>
+        <th colspan="1">Image</th>
       </tr>
     </thead>
     <tbody id="myThemeTable"></tbody>
@@ -171,7 +172,8 @@
                     <td colspan="1">${color}</td>
                     <td colspan="1">${font_name}</td>
                     <td colspan="1">${font_size}</td>
-                    <td colspan="1">background</td>
+                    <td colspan="1">${data.background}</td>
+                    <td colspan="1"><img src="${url}/images/${data.background}" width="10%" heigh="10%"/></td>
                 </tr>
             `);
 
