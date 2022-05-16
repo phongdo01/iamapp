@@ -1,5 +1,6 @@
 const category = require("../models/category");
 const version = require("./versionHandler");
+const themeHandler = require("../services/themeHandler");
 const ObjectId = require("mongodb").ObjectId;
 const DEFAULT_CURRENT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 1000;
@@ -20,7 +21,10 @@ module.exports = {
         theme
       });
       version.save();
-      return await newCategory.save();
+      return await newCategory.save().then(newCategory => {
+        themeHandler.update(theme, {is_customer: true});
+        return newCategory;
+      });
     } catch (error) {
       console.log(error);
       throw error;

@@ -37,4 +37,9 @@ module.exports = {
     version.save();
     return await theme.deleteOne({ _id: ObjectId(id) });
   },
+  update: async function(id, body) {
+    const updateTheme = await theme.findById(id);
+    const newTheme = await updateTheme.updateOne(body);
+    return newTheme;
+  }
 };
