@@ -1,58 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    
-    <title>Admin</title>
-  </head>
-  <body class="container">
-    <div class="container">
-      <h2>I'm app server side</h2>
-      <p>
-        Add more data for server, the ID is automatically generate when storing into database, beside that feature "Edit" has not been finished, <span style="color:red">it could be added in next version</span>
-      </p>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-      <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#home" onClick="clickGroup()">Group</a></li>
-        <li><a data-toggle="tab" href="#menu1" onClick="clickCategory()">Category</a></li>
-        <li><a data-toggle="tab" href="#menu2" onClick="clickTheme()">Theme</a></li>
-        <li>
-          <a data-toggle="tab" href="#menu3" onClick="clickQuote()">Quote</a>
-        </li>
-      </ul>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-      <div class="tab-content">
-        <div id="home" class="tab-pane fade in active">
-          <%- include('./group.ejs') %>
-        </div>
-        <div id="menu1" class="tab-pane fade">
-          <%- include('./category.ejs') %>
-        </div>
-        <div id="menu2" class="tab-pane fade">
-          <%- include('./theme.ejs') %>
-        </div>
-        <div id="menu3" class="tab-pane fade">
-          <%- include('./quote.ejs') %>
-        </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.0/js/bootstrap-select.min.js"
+    integrity="sha512-4Z3wjB72KKDCH9Mrlkv36NmN1YsJiIH29OZ2Xy60/VRPZowGs0Mm3hBkrsuaaXPdvEywp4mVE/eOlMvvKLGZgA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.0/css/bootstrap-select.min.css"
+    integrity="sha512-iw1s8XcXj3LxD08HK/u4CqygkOJk7lMei+uTXt9Ktd1oJClpQoB236AL589zofHxZRjwPwT+/EE8mgYYuscBmQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Admin</title>
+</head>
+<body class="container">
+  <div class="container">
+    <h2>I'm app server side</h2>
+    <p>
+      Add more data for server, the ID is automatically generate when storing into database, beside that feature "Edit"
+      has not been finished, <span style="color:red">it could be added in next version</span>
+    </p>
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#home" onClick="clickGroup()">Group</a></li>
+      <li><a data-toggle="tab" href="#menu1" onClick="clickCategory()">Category</a></li>
+      <li><a data-toggle="tab" href="#menu2" onClick="clickTheme()">Theme</a></li>
+      <li>
+        <a data-toggle="tab" href="#menu3" onClick="clickQuote()">Quote</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="home" class="tab-pane fade in active">
+        <%- include('./group.ejs') %>
+      </div>
+      <div id="menu1" class="tab-pane fade">
+        <%- include('./category.ejs') %>
+      </div>
+      <div id="menu2" class="tab-pane fade">
+        <%- include('./theme.ejs') %>
+      </div>
+      <div id="menu3" class="tab-pane fade">
+        <%- include('./quote.ejs') %>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
 
 <script>
