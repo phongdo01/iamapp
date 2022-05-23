@@ -20,11 +20,11 @@ const checkAuth = function (req, res, next) {
 };
 
 router.use("/admin", checkAuth,  admin);
-router.use("/quotes", checkAuth, quotes);
-router.use("/themes", checkAuth, themes);
-router.use("/categories", checkAuth, categories);
-router.use("/groups", checkAuth, groups);
-router.use("/interfaces", checkAuth, interfaces);
+router.use("/quotes", quotes);
+router.use("/themes", themes);
+router.use("/categories", categories);
+router.use("/groups", groups);
+router.use("/interfaces", interfaces);
 router.use("/login", login);
 router.get("/", checkAuth, function(req, res) {
   res.redirect("/admin");
