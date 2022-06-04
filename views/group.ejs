@@ -66,7 +66,7 @@
                 >Category:</label
               >
               <div>
-                <select class="form-control selectpicker" id="selectedCategoryGroup" multiple></select>
+                <select class="form-control" id="selectedCategoryGroup" multiple></select>
               </div>
             </div>
             <p style="color: red">Press CTR to select more categories</p>
@@ -154,16 +154,6 @@
           alert("Error");
           return;
         }
-        // $("#myGroupTable").prepend(`
-        //           <tr id="${data._id}">
-        //               <td>
-        //                     <a onClick="editQuote('${data._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-        //                     <a onClick="deleteQuote('${data._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-        //               </td>
-        //               <td colspan="1">${title}</td>
-        //               <td colspan="5">${categories.join('<br>')}</td>
-        //           </tr>
-        //       `);
         clickGroup();
         $("#closeGroupModal").click();
       }

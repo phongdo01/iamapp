@@ -26,6 +26,9 @@ router.use("/categories", categories);
 router.use("/groups", groups);
 router.use("/interfaces", interfaces);
 router.use("/login", login);
+router.get("/test", function(req, res) {
+  res.send("Success");
+});
 router.get("/", checkAuth, function(req, res) {
   res.redirect("/admin");
 });
