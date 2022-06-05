@@ -72,8 +72,22 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" onClick="addQuote()">
+          <button
+            type="button"
+            id="addQuoteButton"
+            class="btn btn-primary"
+            onClick="performAddQuote()"
+          >
             Add
+          </button>
+          <button
+            type="button"
+            id="editQuoteButton"
+            in
+            class="btn btn-primary d-none"
+            onClick="performEditQuote()"
+          >
+            Edit
           </button>
         </div>
       </div>
@@ -115,42 +129,22 @@
     });
   });
   const openModal = function () {
-    $.get(`${url}/categories`, function (data, status) {
+    getCategoriesAtQuote();
+  };
+  const performAddQuote = function () {
+    const { category_id, content } = getDataField();
+    if (!category_id || !content) {
+      return;
+    }
+    $.post(`${url}/quotes`, { category_id, content }, function (data, status) {
       if (status === "error") {
         alert("Error");
         return;
       }
-      const selectElement = data.reduce((elements, item) => {
-        return (
-          elements +
-          `
-                <option value="${item._id}">${item.title}</option>
-            `
-        );
-      }, "");
-      $("#inlineFormCustomSelect").html(selectElement);
-    });
-  };
-  const addQuote = function () {
-    category_id = $("#inlineFormCustomSelect").val();
-    category_name = $("#inlineFormCustomSelect option:selected").text();
-    content = $("#content-text").val();
-    if (!category_id || !category_name || !content) {
-      alert("Please fill all the fields");
-      return;
-    }
-    $.post(
-      `${url}/quotes`,
-      { category_id, content },
-      function (data, status) {
-        if (status === "error") {
-          alert("Error");
-          return;
-        }
-        $("#myTable").prepend(`
+      $("#myTable").prepend(`
                 <tr id="${data._id}">
                     <td>
-                          <a onClick="editQuote('${data._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                      <a onClick="editQuote('${item._id}', '${item.category_name}', '${item.content}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                           <a onClick="deleteQuote('${data._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
                     <td colspan="1">${category_name}</td>
@@ -158,10 +152,27 @@
                 </tr>
             `);
 
+      $(".close").click();
+    });
+    $("#content-text").val("");
+  };
+  const performEditQuote = function () {
+    const { category_id, content } = getDataField();
+    if (!category_id || !content) {
+      return;
+    }
+    $.ajax({
+      url: `${url}/quotes/${editQuoteId}`,
+      method: "PUT",
+      data: { category_id, content },
+      success: function (data) {
+        clickQuote();
         $(".close").click();
-      }
-    );
+      },
+      error: function (error) {
+        alert(error);
+      },
+    });
     $("#content-text").val("");
   };
 </script>
-

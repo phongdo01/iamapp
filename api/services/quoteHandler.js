@@ -43,5 +43,22 @@ module.exports = {
   deleteQuote: async function(id) {
     version.save();
     return await quote.deleteOne({_id: ObjectId(id)});
-  }
+  },
+  updateQuote: async function (id, body) {
+    try {
+      const { category_id, content } = body;
+      const updatedQuote = await quote.findById(id);
+      if (!updatedQuote) {
+        return 'NOT_FOUND';
+      }
+      if (quote.category_id === category_id && quote.content === content) {
+        return 'NO_CHANGE'
+      }
+      version.save();
+      return await updatedQuote.updateOne({ category_id, content });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
 };

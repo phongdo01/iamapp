@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getQuotes, save, deleteQuote} = require('../services/quoteHandler');
+const { getQuotes, save, deleteQuote, updateQuote} = require('../services/quoteHandler');
 const cors = require('../helper/cors');
 router.get("/", cors, async function (req, res, next) {
   const { query } = req;
@@ -26,5 +26,15 @@ router.delete("/:id", cors, async function (req, res, next) {
         res.status(400).send(error);
     }
 });
+
+router.put("/:id", cors, async function(req, res) {
+    const {id} = req.params;
+    const { category_id, content } = req.body;
+    const updatedQuote = await updateQuote(id, { category_id, content });
+    if (typeof updatedQuote === "string") {
+        return res.status(404).json({message: updatedQuote});
+    }
+    res.status(200).json(updatedQuote);
+})
 
 module.exports = router;
