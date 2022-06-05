@@ -61,8 +61,11 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" onClick="addCategory()">
+          <button type="button" id="addCategoryButton" class="btn btn-primary" onClick="performAddCategory()">
             Add
+          </button>
+          <button type="button" id="editCategoryButton" class="btn btn-primary" onClick="performEditCategory()">
+            Edit
           </button>
         </div>
       </div>
@@ -102,39 +105,24 @@
     });
   });
   const openCategoryModal = function () {
-    $.get(`${url}/themes`, function (data, status) {
-      if (status === "error") {
-        alert("Error");
-        return;
-      }
-      const selectElement = data.reduce((elements, item) => {
-        const {_id, background, color, font_name, font_size} = item;
-        return (
-          elements +
-          `
-          <option value="${_id}"
-                data-content="<image src='${url}/images/${background}' width='10%' height='10%'/> ${color}-${font_name}-${font_size}">
-                ${_id}</option>
-          `
-        );
-      }, "");
-      $(".selectpicker").selectpicker('refresh').empty().append(selectElement).selectpicker('refresh').trigger('change');
-    });
+    displayCategoryButton("addCategoryButton");
+    getThemesAtCategory();
   };
-  const addCategory = function () {
-    title = $("#categoryTitle").val();
-    is_lock = $("#categoryIsLock").is(":checked") || false;
-    is_default = $("#categoryIsDefault").is(":checked") || false;
-    theme = $("#categoryTheme").val();
+  const performAddCategory = function () {
+    const {
+      title,
+      is_lock,
+      is_default,
+      theme
+    } = getDataCategoryField();
+    if (!(title && theme)) {
+      return;
+    }
     const body = {
       title,
       is_lock,
       is_default,
       theme
-    }
-    if (!(title && theme)) {
-      alert("Please fill all the fields");
-      return;
     }
     $.post(
       `${url}/categories`,
@@ -144,19 +132,7 @@
           alert("Error");
           return;
         }
-        $("#myCategoryTable").prepend(`
-                <tr id="${data._id}">
-                    <td>
-                          <a onClick="editCategory('${data._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                          <a onClick="deleteCategory('${data._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                    <td colspan="1">${data.title}</td>
-                    <td colspan="1">${data.is_lock}</td>
-                    <td colspan="1">${data.is_default}</td>
-                    <td colspan="1">${data.theme}</td>
-                </tr>
-            `);
-
+        clickCategory();
         $("#closeCategoryModal").click();
       }
     );
@@ -164,4 +140,33 @@
     $("#categoryIsLock").prop('checked', false);
     $("#categoryIsDefault").prop('checked', false);
   };
+  const performEditCategory = function() {
+    const {
+      title,
+      is_lock,
+      is_default,
+      theme
+    } = getDataCategoryField();
+    if (!(title && theme)) {
+      return;
+    }
+    const body = {
+      title,
+      is_lock,
+      is_default,
+      theme
+    }
+    $.ajax({
+      url: `${url}/categories/${editCategoryId}`,
+      method: "PUT",
+      data: body,
+      success: function (data) {
+        clickCategory();
+        $(".close").click();
+      },
+      error: function (error) {
+        alert(error);
+      },
+    });
+  }
 </script>

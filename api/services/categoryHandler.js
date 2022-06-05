@@ -53,5 +53,32 @@ module.exports = {
     const deleteCategory = await category.findById(id).lean();
     themeHandler.update(deleteCategory.theme, {is_customer: false});
     return await category.deleteOne({_id: ObjectId(id)});
-  }
+  },
+  updateCategory: async function (id, body) {
+    try {
+      const {
+        title,
+        is_lock,
+        is_default,
+        theme
+      } = body;
+      const updatedCategory = await category.findById(id);
+      if (!updatedCategory) {
+        return 'NOT_FOUND';
+      }
+      if (category.title === title && category.is_lock === is_lock && category.is_default === is_default && category.theme === theme) {
+        return 'NO_CHANGE'
+      }
+      version.save();
+      return await updatedCategory.updateOne({
+        title,
+        is_lock,
+        is_default,
+        theme
+      });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
 };

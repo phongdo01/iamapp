@@ -85,6 +85,7 @@
   // const url = "http://shinosuke.cf";
   const url = "http://localhost:3000";
   let editQuoteId = undefined;
+  let editCategoryId = undefined;
   const clickQuote = function () {
     $.get(`${url}/quotes`, function (data, status) {
       if (status === "error") {
@@ -181,16 +182,17 @@
       }
       let table = "";
       data.forEach((item) => {
+        const {_id, title, is_lock, is_default, theme} = item;
         table += `
                 <tr id='${item._id}'>
                     <td>
-                          <a onClick="editCategory('${item._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                          <a onClick="deleteCategory('${item._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                          <a onClick="editCategory('${_id}', '${title}', ${is_lock}, ${is_default}, '${theme}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)" data-toggle="modal" data-target="#myCategoryModal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a onClick="deleteCategory('${_id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
-                    <td colspan="1">${item.title}</td>
-                    <td colspan="1">${item.is_lock}</td>
-                    <td colspan="1">${item.is_default}</td>
-                    <td colspan="1">${item.theme}</td>
+                    <td colspan="1">${title}</td>
+                    <td colspan="1">${is_lock}</td>
+                    <td colspan="1">${is_default}</td>
+                    <td colspan="1">${theme}</td>
                 </tr>
             `;
       });
@@ -214,6 +216,14 @@
       },
     });
   };
+  const editCategory = function(id, title, is_lock, is_default, theme) {
+    editCategoryId = id;
+    displayCategoryButton("editCategoryButton");
+    getThemesAtCategory(theme);
+    $('#categoryTitle').val(title);
+    $('#categoryIsLock').attr('checked', is_lock);
+    $('#categoryIsDefault').attr('checked', is_default);
+  }
   $(document).ready(function () {
     clickGroup();
   });

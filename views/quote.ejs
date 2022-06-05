@@ -129,10 +129,11 @@
     });
   });
   const openModal = function () {
+    displayQuoteButton("addQuoteButton");
     getCategoriesAtQuote();
   };
   const performAddQuote = function () {
-    const { category_id, content } = getDataField();
+    const { category_id, content } = getDataQuoteField();
     if (!category_id || !content) {
       return;
     }
@@ -141,23 +142,13 @@
         alert("Error");
         return;
       }
-      $("#myTable").prepend(`
-                <tr id="${data._id}">
-                    <td>
-                      <a onClick="editQuote('${item._id}', '${item.category_name}', '${item.content}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                          <a onClick="deleteQuote('${data._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                    <td colspan="1">${category_name}</td>
-                    <td colspan="5">${content}</td>
-                </tr>
-            `);
-
+      clickQuote();
       $(".close").click();
     });
     $("#content-text").val("");
   };
   const performEditQuote = function () {
-    const { category_id, content } = getDataField();
+    const { category_id, content } = getDataQuoteField();
     if (!category_id || !content) {
       return;
     }

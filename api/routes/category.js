@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const cors = require('../helper/cors');
-const { getCategories, save, deleteCategory} = require('../services/categoryHandler');
+const { getCategories, save, deleteCategory, updateCategory} = require('../services/categoryHandler');
 
 router.get("/", cors, async function (req, res, next) {
   const { query } = req;
@@ -27,5 +27,14 @@ router.delete("/:id", cors, async function (req, res, next) {
         res.status(400).send(error);
     }
 });
+
+router.put("/:id", cors, async function(req, res) {
+    const {id} = req.params;
+    const updatedCategory = await updateCategory(id, req.body);
+    if (typeof updatedCategory === "string") {
+        return res.status(404).json({message: updatedCategory});
+    }
+    res.status(200).json(updatedCategory);
+})
 
 module.exports = router;
