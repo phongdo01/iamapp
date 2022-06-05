@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const cors = require('../helper/cors');
-const { getGroups, save, deleteGroup} = require('../services/groupHandler');
+const { getGroups, save, deleteGroup, updateGroup} = require('../services/groupHandler');
 
 router.get("/", cors, async function (req, res, next) {
   const { query } = req;
@@ -27,5 +27,14 @@ router.delete("/:id", cors, async function (req, res, next) {
         res.status(400).send(error);
     }
 });
+
+router.put("/:id", cors, async function(req, res) {
+    const {id} = req.params;
+    const updatedGroup = await updateGroup(id, req.body);
+    if (typeof updatedGroup === "string") {
+        return res.status(404).json({message: updatedGroup});
+    }
+    res.status(200).json(updatedGroup);
+})
 
 module.exports = router;

@@ -76,8 +76,11 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" onClick="addGroup()">
+          <button type="button" id="addGroupButton" class="btn btn-primary" onClick="performAddGroup()">
             Add
+          </button>
+          <button type="button" id="editGroupButton" class="btn btn-primary" onClick="performEditGroup()">
+            Edit
           </button>
         </div>
       </div>
@@ -120,31 +123,13 @@
   });
   
   const openGroupModal = function () {
-    $.get(`${url}/categories`, function (data, status) {
-      if (status === "error") {
-        alert("Error");
-        return;
-      }
-      const selectElement = data.reduce((elements, item) => {
-        return (
-          elements +
-          `
-                  <option value="${item._id}">${item.title}</option>
-              `
-        );
-      }, "");
-      $("#selectedCategoryGroup").html(selectElement);
-    });
+    getCategoryAtGroup();
+    displayGroupButton("addGroupButton");
   };
-  const addGroup = function () {
-    categories = $("#selectedCategoryGroup option:selected").map((i, el) => {
-        return $(el).val();
-    }).get();
-    title = $("#content-text-group").val();
-    const body = {categories, title};
+  const performAddGroup = function () {
+    const {categories, title} = getDataGroupField();
     if (!categories || !title) {
-        alert("Please fill all the fields");
-        return;
+    return;
     }
     $.post(
       `${url}/groups`,
@@ -160,4 +145,20 @@
     );
     $("#content-text-group").val("");
   };
+  const performEditGroup = function () {
+    const { categories, title } = getDataGroupField();
+    if (!categories || !title) {
+      return;
+    }
+    $.ajax({
+      url: `${url}/groups/${editGroupId}`,
+      method: "PUT",
+      data: { categories, title },
+      success: function (data) {
+        clickGroup();
+        $(".close").click();
+      },
+      error: handleUpdateError,
+    });
+  }
 </script>

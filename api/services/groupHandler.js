@@ -48,5 +48,23 @@ module.exports = {
   deleteGroup: async function(id) {
     version.save();
     return await group.deleteOne({_id: ObjectId(id)});
-  }
+  },
+  updateGroup: async function (id, body) {
+    try {
+      const { title } = body;
+      const categories = body["categories[]"];
+      const updatedGroup = await group.findById(id);
+      if (!updatedGroup) {
+        return 'NOT_FOUND';
+      }
+      if (updatedGroup.title === title && JSON.stringify(updatedGroup.categories) === JSON.stringify(categories)) {
+        return 'NO_CHANGE'
+      }
+      version.save();
+      return await updatedGroup.updateOne({ categories, title });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
 };

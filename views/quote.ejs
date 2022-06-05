@@ -160,9 +160,7 @@
         clickQuote();
         $(".close").click();
       },
-      error: function (error) {
-        alert(error);
-      },
+      error: handleUpdateError,
     });
     $("#content-text").val("");
   };

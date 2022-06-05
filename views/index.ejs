@@ -86,6 +86,7 @@
   // const url = "http://localhost:3000";
   let editQuoteId = undefined;
   let editCategoryId = undefined;
+  let editGroupId = undefined;
   const clickQuote = function () {
     $.get(`${url}/quotes`, function (data, status) {
       if (status === "error") {
@@ -235,17 +236,19 @@
       }
       let table = "";
       data.forEach((item) => {
-        const categories = item.categories
+        const {title, _id, categories} = item;
+        const listTitleInCategories = categories
           .map((item) => item.title)
           .join("<br>");
+        const listCategoriesInGrp = categories.map(item => item._id).join(",")
         table += `
-                <tr id='${item._id}'>
+                <tr id='${_id}'>
                     <td>
-                          <a onClick="editGroup('${item._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                          <a onClick="deleteGroup('${item._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                          <a onClick="editGroup('${_id}', '${title}', '${listCategoriesInGrp}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)" data-toggle="modal" data-target="#myGroupModal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a onClick="deleteGroup('${_id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
-                    <td colspan="1">${item.title}</td>
-                    <td colspan="5">${categories}</td>
+                    <td colspan="1">${title}</td>
+                    <td colspan="5">${listTitleInCategories}</td>
                 </tr>
             `;
       });
@@ -269,4 +272,10 @@
       },
     });
   };
+  const editGroup = function(id, title, listCategoriesInGrp) {
+    editGroupId = id;
+    getCategoryAtGroup(listCategoriesInGrp);
+    displayGroupButton("editGroupButton");
+    $("#content-text-group").val(title);
+  }
 </script>
