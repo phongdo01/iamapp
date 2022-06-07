@@ -20,7 +20,7 @@ module.exports = {
   getQuotes: async function (query) {
     let { currentPage, pageSize } = query;
     currentPage = parseInt(currentPage) || DEFAULT_CURRENT_PAGE;
-    pageSize = parseInt(pageSize) || DEFAULT_PAGE_SIZE;chế
+    pageSize = parseInt(pageSize) || DEFAULT_PAGE_SIZE;
     const quotes = await quote
       .find({})
       .lean()
