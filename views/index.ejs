@@ -39,11 +39,10 @@
   </head>
   <body class="container">
     <div class="container">
-      <h2>I'm app server side</h2>
+      <h2>"I am" app server side</h2>
       <p>
-        Add more data for server, the ID is automatically generate when storing
-        into database, beside that feature "Edit" has not been finished,
-        <span style="color: red">it could be added in next version</span>
+        Add/edit data for server, the ID is automatically generated when storing
+        into database
       </p>
 
       <ul class="nav nav-tabs">
@@ -77,6 +76,17 @@
           <%- include('./quote.ejs') %>
         </div>
       </div>
+    </br>
+    </br>
+    <footer class="bg-light text-center text-lg-start">
+    
+      <!-- Copyright -->
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2022 Copyright:
+        <a class="text-dark" href="http://shinosuke.cf">Iam app</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
     </div>
   </body>
 </html>
@@ -87,6 +97,7 @@
   let editQuoteId = undefined;
   let editCategoryId = undefined;
   let editGroupId = undefined;
+  let editThemeId = undefined;
   const clickQuote = function () {
     $.get(`${url}/quotes`, function (data, status) {
       if (status === "error") {
@@ -98,7 +109,7 @@
         table += `
                 <tr id='${item._id}'>
                     <td>
-                          <a onClick="editQuote('${item._id}', '${item.category_id}', '${item.content}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)" data-toggle="modal" data-target="#myModal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a onClick="editQuote('${item._id}', '${item.category_id}', '${item.content}')" class="edit" style="color:rgb(51, 63, 121)" data-toggle="modal" data-target="#myModal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                           <a onClick="deleteQuote('${item._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
                     <td colspan="1">${item.category_name}</td>
@@ -130,7 +141,6 @@
     displayQuoteButton("editQuoteButton");
     editQuoteId = id;
     getCategoriesAtQuote(category_id);
-    // $("#inlineFormCustomSelect").val("6298e21750f86ada0ba6d49d").change();
     $('#content-text').val(content);
   };
   const clickTheme = function () {
@@ -141,16 +151,17 @@
       }
       let table = "";
       data.forEach((item) => {
+        const {_id, color, font_name, font_size, background} = item
         table += `
                 <tr id='${item._id}'>
                     <td>
-                          <a onClick="editTheme('${item._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                          <a onClick="deleteTheme('${item._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                          <a onClick="editTheme('${_id}', '${color}', '${font_name}', '${font_size}', '${background}')" class="edit" data-toggle="modal" data-target="#myThemeModal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a onClick="deleteTheme('${_id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
-                    <td colspan="1">${item.color}</td>
-                    <td colspan="1">${item.font_name}</td>
-                    <td colspan="1">${item.font_size}</td>
-                    <td colspan="1">${item.background}</td>
+                    <td colspan="1">${color}</td>
+                    <td colspan="1">${font_name}</td>
+                    <td colspan="1">${font_size}</td>
+                    <td colspan="1">${background}</td>
                     <td colspan="1" style="justify-content: center;"><img src="${url}/images/${item.background}" width="10%" heigh="10%"/></td>
                 </tr>
             `;
@@ -175,6 +186,14 @@
       },
     });
   }
+  const editTheme = function (id, color, font_name, font_size, background) {
+    displayThemeButton("editThemeButton");
+    editThemeId = id;
+    $('#themeColor').val(color);
+    $('#themeFontName').val(font_name);
+    $('#themeFontSize').val(font_size);
+    $('#background-image').attr("src", `${url}/images/${background}`);
+  };
   const clickCategory = function () {
     $.get(`${url}/categories`, function (data, status) {
       if (status === "error") {
@@ -187,7 +206,7 @@
         table += `
                 <tr id='${item._id}'>
                     <td>
-                          <a onClick="editCategory('${_id}', '${title}', ${is_lock}, ${is_default}, '${theme}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)" data-toggle="modal" data-target="#myCategoryModal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a onClick="editCategory('${_id}', '${title}', ${is_lock}, ${is_default}, '${theme}')" class="edit" style="color:rgb(51, 63, 121)" data-toggle="modal" data-target="#myCategoryModal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                           <a onClick="deleteCategory('${_id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
                     <td colspan="1">${title}</td>
@@ -244,7 +263,7 @@
         table += `
                 <tr id='${_id}'>
                     <td>
-                          <a onClick="editGroup('${_id}', '${title}', '${listCategoriesInGrp}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)" data-toggle="modal" data-target="#myGroupModal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a onClick="editGroup('${_id}', '${title}', '${listCategoriesInGrp}')" class="edit" style="color:rgb(51, 63, 121)" data-toggle="modal" data-target="#myGroupModal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                           <a onClick="deleteGroup('${_id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
                     <td colspan="1">${title}</td>

@@ -1,7 +1,7 @@
 const multer = require("multer");
 const express = require("express");
 const router = express.Router();
-const { getThemes, save, deleteTheme } = require("../services/themeHandler");
+const { getThemes, save, deleteTheme, updateTheme } = require("../services/themeHandler");
 const cors = require("../helper/cors");
 
 var storage = multer.diskStorage({
@@ -65,5 +65,28 @@ router.delete("/:id", cors, async function (req, res, next) {
     res.status(400).send(error);
   }
 });
+
+router.put("/:id", [cors, upload.single("background")],
+  async function (req, res, next) {
+    try {
+      if (req.fileValidationError) {
+        return res.end(req.fileValidationError);
+      }
+      const {id} = req.params;
+      const { color, font_name, font_size } = req.body;
+      const background = req.file.filename;
+      const file = req.file;
+      if (!file) {
+        const error = new Error("Please upload a file");
+        res.status(400).send(error);
+      }
+      const updatedThemes = await updateTheme(id, { color, font_name, font_size, background });
+      res.status(200).json(updatedThemes);
+    } catch (error) {
+      console.log("error:", error);
+      res.status(400).send(error);
+    }
+  }
+);
 
 module.exports = router;

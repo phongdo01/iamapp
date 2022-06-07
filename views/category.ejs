@@ -71,10 +71,6 @@
       </div>
     </div>
   </div>
-  <p>
-    Note that we start the search in tbody, to prevent filtering the table
-    headers.
-  </p>
 </div>
 <style>
   table {
@@ -161,6 +157,7 @@
       method: "PUT",
       data: body,
       success: function (data) {
+        editCategoryId = undefined;
         clickCategory();
         $(".close").click();
       },

@@ -77,6 +77,19 @@ function displayGroupButton(id) {
   }
 }
 
+function displayThemeButton(id) {
+  if (id === "editThemeButton") {
+    $("#addThemeButton").css("display", "none");
+    $("#editThemeButton").css("display", "");
+    $("#background-image").css("display", "");
+  }
+  if (id === "addThemeButton") {
+    $("#editThemeButton").css("display", "none");
+    $("#addThemeButton").css("display", "");
+    $("#background-image").css("display", "none")
+  }
+}
+
 function getDataQuoteField() {
   const category_id = $("#inlineFormCustomSelect").val();
   const category_name = $("#inlineFormCustomSelect option:selected").text();

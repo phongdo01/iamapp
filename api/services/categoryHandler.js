@@ -51,7 +51,7 @@ module.exports = {
   deleteCategory: async function(id) {
     version.save();
     const deleteCategory = await category.findById(id).lean();
-    themeHandler.update(deleteCategory.theme, {is_customer: false});
+    themeHandler.updateTheme(deleteCategory.theme, {is_customer: false});
     return await category.deleteOne({_id: ObjectId(id)});
   },
   updateCategory: async function (id, body) {

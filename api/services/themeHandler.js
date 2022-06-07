@@ -37,9 +37,26 @@ module.exports = {
     version.save();
     return await theme.deleteOne({ _id: ObjectId(id) });
   },
-  update: async function(id, body) {
-    const updateTheme = await theme.findById(id);
-    const newTheme = await updateTheme.updateOne(body);
-    return newTheme;
-  }
+  updateTheme: async function (id, body) {
+    const { color, font_name, font_size, background } = body;
+    const updatedTheme = await theme.findById(id);
+    if (!updatedTheme) {
+      return "NOT_FOUND";
+    }
+    if (
+      color === updatedTheme.color &&
+      font_name === updatedTheme.font_name &&
+      font_size === updatedTheme.font_size &&
+      background === updatedTheme.background
+    ) {
+      return "NO_CHANGE";
+    }
+    version.save();
+    return await updatedTheme.updateOne({
+      color,
+      font_name,
+      font_size,
+      background,
+    });
+  },
 };

@@ -93,11 +93,6 @@
       </div>
     </div>
   </div>
-
-  <p>
-    Note that we start the search in tbody, to prevent filtering the table
-    headers.
-  </p>
 </div>
 
 <style>
@@ -158,6 +153,7 @@
       data: { category_id, content },
       success: function (data) {
         clickQuote();
+        editQuoteId = undefined;
         $(".close").click();
       },
       error: handleUpdateError,

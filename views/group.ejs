@@ -86,11 +86,6 @@
       </div>
     </div>
   </div>
-
-  <p>
-    Note that we start the search in tbody, to prevent filtering the table
-    headers.
-  </p>
 </div>
 
 <style>
@@ -155,6 +150,7 @@
       method: "PUT",
       data: { categories, title },
       success: function (data) {
+        editGroupId = undefined;
         clickGroup();
         $(".close").click();
       },

@@ -16,6 +16,7 @@
       style="margin-left: 1%"
       data-toggle="modal"
       data-target="#myThemeModal"
+      onclick="openThemeModal()"
     >
       Add
     </button>
@@ -76,9 +77,10 @@
               <input type="number" name="font_size" class="form-control" id="themeFontSize"></input>
             </div>
             <div class="form-group">
-              <label for="message-text" class="col-form-label"
-                >Background:</label
-              >
+              <div>
+                <label for="message-text" class="col-form-label">Background:</label>
+                <img id="background-image" src="images/default.jpg" alt="image" width="100px" height="100px"/>
+              </div>
               <input type="file" class="form-control" id="themeBackGround" name="background"></input>
             </div>
           </div>
@@ -86,19 +88,17 @@
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
               Close
             </button>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary" id="addThemeButton">
               Add
+            </button>
+            <button type="submit" class="btn btn-primary" id="editThemeButton">
+              Edit
             </button>
           </div>
         </form>
         </div>
     </div>
   </div>
-
-  <p>
-    Note that we start the search in tbody, to prevent filtering the table
-    headers.
-  </p>
 </div>
 
 <style>
@@ -163,19 +163,7 @@
           alert("Error");
           return;
         }
-        $("#myThemeTable").prepend(`
-                <tr id="${data._id}">
-                    <td>
-                          <a onClick="editQuote('${data._id}')" class="edit" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                          <a onClick="deleteQuote('${data._id}')" class="delete" data-toggle="modal" style="color:rgb(51, 63, 121)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                    <td colspan="1">${color}</td>
-                    <td colspan="1">${font_name}</td>
-                    <td colspan="1">${font_size}</td>
-                    <td colspan="1">${data.background}</td>
-                    <td colspan="1"><img src="${url}/images/${data.background}" width="10%" heigh="10%"/></td>
-                </tr>
-            `);
+        clickTheme();
 
         $("#closeThemeModal").click();
         $("#themeFontName").val("");
@@ -188,17 +176,20 @@
     }
     );
   };
-
+  const openThemeModal = function() {
+    displayThemeButton("addThemeButton");
+  }
   $("#add-theme").on('submit', function(e) {
     e.preventDefault(); // avoid to execute the actual submit of the form.
     $.ajax({
-        type: "POST",
-        url: `${url}/themes`,
+        type: editThemeId ? "PUT" : "POST",
+        url: `${url}/themes/${editThemeId||''}`,
         data: new FormData(this), // serializes the form's elements.
         cache: false,
         contentType: false,
         processData: false,
         success: function(data) {
+          editThemeId = undefined;
           $("#closeThemeModal").click();
           clickTheme();
         }
